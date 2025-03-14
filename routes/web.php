@@ -1,28 +1,27 @@
 <?php
 
-use App\Livewire\AdminDashboard;
-use App\Livewire\AdminPembayaran;
-use App\Livewire\AdminPesanan;
-use App\Livewire\Artikel;
-use App\Livewire\Home;
-use App\Livewire\Kontak;
-use App\Livewire\UserDashboard;
+use App\Http\Controllers\Admin\ArticleController;
+use App\Http\Controllers\Admin\BannerController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\User\AboutController;
+use App\Http\Controllers\User\ArticleController as UserArticleController;
+use App\Http\Controllers\User\ContactController;
+use App\Http\Controllers\User\HomeController;
+use App\Http\Controllers\User\PackageController;
+use App\Livewire\Admin\Dashboard;
+use App\Livewire\Auth\Login;
+use App\Livewire\Auth\Register;
+use App\Livewire\User\Dashboard as UserDashboard;
 use Illuminate\Support\Facades\Route;
-use App\Livewire\Login;
-use App\Livewire\ManajemenLaporan;
-use App\Livewire\ManajemenUser;
-use App\Livewire\Paket;
-use App\Livewire\Register;
-use App\Livewire\Tentang;
 
 Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)->name('login');
     Route::get('register', Register::class)->name('register');
-    Route::get('/', Home::class)->name('home');
-    Route::get('/tentang', Tentang::class)->name('about');
-    Route::get('/paket', Paket::class)->name('paket');
-    Route::get('/artikel', Artikel::class)->name('artikel');
-    Route::get('/kontak', Kontak::class)->name('kontak');
+    Route::get('/', [HomeController::class, 'index'])->name('user.home.index');
+    Route::get('/paket', [PackageController::class, 'index'])->name('user.package.index');
+    Route::get('/artikel', [UserArticleController::class, 'index'])->name('user.article.index');
+    Route::get('/kontak', [ContactController::class, 'index'])->name('user.contact.index');
+    Route::get('/tentang', [AboutController::class, 'index'])->name('user.about.index');
 });
 
 Route::middleware('auth')->group(function () {
@@ -30,11 +29,24 @@ Route::middleware('auth')->group(function () {
 
     // Menggunakan middleware admin yang sudah terdaftar
     Route::middleware('admin')->group(function () {
-        Route::get('/admin/dashboard', AdminDashboard::class)->name('admin.dashboard');
-        Route::get('/admin/pesanan', AdminPesanan::class)->name('admin.pesanan');
-        Route::get('/admin/pembayaran', AdminPembayaran::class)->name('admin.pembayaran');
-        Route::get('/admin/user', ManajemenUser::class)->name('admin.user');
-        Route::get('/admin/laporan', ManajemenLaporan::class)->name('admin.laporan');
+        // Dashboard Route
+        Route::get('/admin/dashboard', Dashboard::class)->name('admin.dashboard');
+
+        // Artikel Route
+        Route::get('/admin/articles', [ArticleController::class, 'index'])->name('admin.articles.index');
+        Route::get('/admin/articles/create', [ArticleController::class, 'create'])->name('admin.articles.create');
+        Route::get('/admin/articles/{id}/edit', [ArticleController::class, 'edit'])->name('admin.articles.edit');
+        Route::get('/admin/articles/{id}/show', [ArticleController::class, 'show'])->name('admin.articles.show');
+
+        // Banners Route
+        Route::get('/admin/banners', [BannerController::class, 'index'])->name('admin.banners.index');
+        Route::get('/admin/banners/create', [BannerController::class, 'create'])->name('admin.banners.create');
+        Route::get('/admin/banners/{id}/edit', [BannerController::class, 'edit'])->name('admin.banners.edit');
+
+        // User Route
+        Route::get('/admin/users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::get('/admin/users/create', [UserController::class, 'create'])->name('admin.users.create');
+        Route::get('/admin/users/{id}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
     });
 });
 

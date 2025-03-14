@@ -1,10 +1,11 @@
+@section('title', 'Register')
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl font-serif mb-6 text-center text-pink-600">Register</h2>
 
         <form wire:submit.prevent="register">
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Nama</label>
                 <input type="text" wire:model="name" class="w-full px-3 py-2 border rounded-lg">
                 @error('name') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
             </div>
@@ -22,7 +23,7 @@
             </div>
 
             <div class="mb-6">
-                <label class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                <label class="block text-gray-700 text-sm font-bold mb-2">Konfirmasi Password</label>
                 <input type="password" wire:model="password_confirmation" class="w-full px-3 py-2 border rounded-lg">
             </div>
 
@@ -32,12 +33,12 @@
         </form>
 
         <p class="mt-4 text-center">
-            Already have an account?
-            <a href="{{ route('login') }}" wire:navigate class="text-pink-500 hover:underline">Login</a>
+            Sudah punya akun?
+            <a href="{{ route('login') }}" wire:navigate class="text-pink-500 hover:underline">Login disini</a>
         </p>
         <p class="mt-1 text-center">
-            or
-            <a href="{{ route('home') }}" wire:navigate class="text-pink-500 hover:underline">back to homepage</a>
+            atau
+            <a href="{{ route('user.home.index') }}" wire:navigate class="text-pink-500 hover:underline">kembali ke halaman utama</a>
         </p>
     </div>
 </div>

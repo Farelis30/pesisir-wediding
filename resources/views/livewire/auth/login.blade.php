@@ -1,3 +1,4 @@
+@section('title', 'Login')
 <div class="min-h-screen flex items-center justify-center bg-gray-100">
     <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
         <h2 class="text-2xl text-pink-600 mb-6 text-center font-serif">PesisirWedding</h2>
@@ -18,7 +19,7 @@
             <div class="mb-6">
                 <label class="flex items-center">
                     <input type="checkbox" wire:model="remember" class="mr-2">
-                    <span class="text-sm">Remember me</span>
+                    <span class="text-sm">Ingat Saya</span>
                 </label>
             </div>
 
@@ -28,12 +29,12 @@
         </form>
 
         <p class="mt-4 text-center">
-            Don't have an account?
-            <a href="{{ route('register') }}" wire:navigate class="text-pink-500 hover:underline">Register</a>
+            Belum punya akun?
+            <a href="{{ route('register') }}" wire:navigate class="text-pink-500 hover:underline">Register disini</a>
         </p>
         <p class="mt-1 text-center">
-            or
-            <a href="{{ route('home') }}" wire:navigate class="text-pink-500 hover:underline">back to homepage</a>
+            atau
+            <a href="{{ route('user.home.index') }}" wire:navigate class="text-pink-500 hover:underline">Kembali ke halaman utama</a>
         </p>
     </div>
 </div>
