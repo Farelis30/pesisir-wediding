@@ -11,7 +11,8 @@ class BannerList extends Component
     use WithPagination;
 
     public $search;
-    protected $queryString = ['search'];
+    public $status;
+    protected $queryString = ['search', 'status'];
 
     public function updatingSearch()
     {
@@ -32,10 +33,20 @@ class BannerList extends Component
 
     public function render()
     {
-        $banners = Banner::where('title', 'like', '%' . $this->search . '%')
-            ->orWhere('description', 'like', '%' . $this->search . '%')
-            ->orderBy('id', 'desc')
-            ->paginate(10);
+        $query = Banner::where(function($query) {
+            $query->where('title', 'like', '%' . $this->search . '%')
+                  ->orWhere('description', 'like', '%' . $this->search . '%')
+                  ->orWhere('cta_text', 'like', '%' . $this->search . '%');
+        });
+
+        if ($this->status === 'active') {
+            $query->where('is_active', true);
+        } elseif ($this->status === 'inactive') {
+            $query->where('is_active', false);
+        }
+
+        $banners = $query->orderBy('created_at', 'desc')
+                        ->paginate(2);
         return view('livewire.admin.banner.banner-list', [
             'banners' => $banners
         ]);

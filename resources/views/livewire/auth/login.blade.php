@@ -1,6 +1,6 @@
 @section('title', 'Login')
-<div class="min-h-screen flex items-center justify-center bg-gray-100">
-    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+<div class="min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1733687050194-3fa9dc23467c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YmVhY2glMjBicmlkZXxlbnwwfHwwfHx8MA%3D%3D');">
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-md bg-opacity-90">
         <h2 class="text-2xl text-pink-600 mb-6 text-center font-serif">PesisirWedding</h2>
 
         <form wire:submit.prevent="login">

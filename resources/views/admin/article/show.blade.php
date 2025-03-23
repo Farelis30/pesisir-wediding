@@ -11,13 +11,13 @@
         </div>
     </x-slot>
 
-    <div class="py-12">
+    <div class="py-2">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     @if($article->thumbnail)
                         <div class="mb-8">
-                            <img src="{{ $article->thumbnail_url }}" alt="{{ $article->title }}" class="rounded-lg w-full h-64 object-cover">
+                            <img src="{{ filter_var($article->thumbnail, FILTER_VALIDATE_URL) ? $article->thumbnail : $article->thumbnail_url }}" alt="{{ $article->title }}" class="rounded-lg w-full h-64 object-cover">
                         </div>
                     @endif
 
@@ -33,6 +33,8 @@
                             <span class="mx-2">|</span>
                             <span>Dipublikasikan: {{ $article->published_date->format('d M Y') }}</span>
                         @endif
+                        <span class="mx-2">|</span>
+                        <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">{{ $article->type }}</span>
                     </div>
                 </div>
             </div>

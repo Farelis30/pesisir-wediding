@@ -1,6 +1,15 @@
 <div>
-    <div class="mb-4">
-        <input wire:model="search" type="search" placeholder="Cari banner..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+    <div class="mb-4 flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+        <div class="flex-1">
+            <input type="text" wire:model.live="search" placeholder="Cari Banner..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        </div>
+        <div class="flex-initial">
+            <select wire:model.live="status" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+                <option value="">Semua Status</option>
+                <option value="active">Aktif</option>
+                <option value="inactive">Tidak Aktif</option>
+            </select>
+        </div>
     </div>
 
     <div class="overflow-x-auto">
@@ -12,6 +21,9 @@
                     </th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         ID
+                    </th>
+                    <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                        Gambar
                     </th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                         Judul
@@ -40,6 +52,15 @@
                             {{ $banner->id }}
                         </td>
                         <td class="py-2 px-4 border-b border-gray-200">
+                           @if($banner->image)
+                               <img src="{{ filter_var($banner->image, FILTER_VALIDATE_URL) ? $banner->image : Storage::url($banner->image) }}" alt="{{ $banner->cta_text }}" class="h-12 w-16 object-cover rounded">
+                           @else
+                               <div class="h-12 w-16 bg-gray-200 flex items-center justify-center rounded">
+                                   <span class="text-gray-500 text-xs">No Image</span>
+                               </div>
+                           @endif
+                       </td>
+                        <td class="py-2 px-4 border-b border-gray-200">
                             {{ $banner->title }}
                         </td>
                         <td class="py-2 px-4 border-b border-gray-200">
@@ -55,6 +76,9 @@
                         </td>
                         <td class="py-2 px-4 border-b border-gray-200">
                             <div class="flex space-x-2">
+                                <a href="{{ route('admin.banners.show', $banner->id) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded text-xs">
+                                    Lihat
+                                </a>
                                 <button onclick="confirmToggle({{ $banner->id }})" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-1 px-2 rounded text-xs">
                                     {{ $banner->is_active ? 'Nonaktifkan' : 'Aktifkan' }}
                                 </button>
@@ -77,7 +101,7 @@
     </div>
 
     <div class="mt-4">
-        {{ $banners->links() }}
+        {{ $banners->links('pagination-links') }}
     </div>
 </div>
 

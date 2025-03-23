@@ -38,8 +38,6 @@ class ArticleList extends Component
         }
 
         $article->save();
-
-        $this->dispatch('article-updated', message:'Status artikel berhasil diubah');
     }
 
     public function delete($id)
@@ -48,7 +46,6 @@ class ArticleList extends Component
         $this->authorize('delete', $article);
 
         $article->delete();
-        $this->dispatch('article-deleted', message:'Artikel berhasil dihapus');
     }
 
     public function render()

@@ -65,13 +65,13 @@
                         <svg class="h-5 w-5 mr-2 text-pink-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
-                        <span class="text-gray-300">info@everafter.id</span>
+                        <span class="text-gray-300">info@pesisirwedding.id</span>
                     </p>
                 </div>
             </div>
         </div>
         <div class="mt-12 pt-8 border-t border-gray-700">
-            <p class="text-gray-400 text-center">© {{ date('Y') }} EverAfter Wedding Organizer. All rights reserved.</p>
+            <p class="text-gray-400 text-center">© {{ date('Y') }} Pesisir Wedding Organizer. All rights reserved.</p>
         </div>
     </div>
 </footer>

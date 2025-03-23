@@ -1,5 +1,26 @@
 <div>
     <form wire:submit.prevent="update">
+
+        <div class="mb-4">
+            <label for="image" class="block text-gray-700 text-sm font-bold mb-2">Gambar</label>
+
+            @if ($image && !$newImage)
+                <div class="mb-2 border rounded">
+                    <img src="{{ $image }}" class="h-full w-auto object-cover rounded">
+                </div>
+            @endif
+
+            <input wire:model="newImage" type="file" id="newImage" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('newImage') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+
+            @if ($newImage)
+                <div class="mt-2 border rounded p-2">
+                    <span class="text-sm text-gray-500">Preview:</span>
+                    <img src="{{ $newImage->temporaryUrl() }}" class="mt-1 h-full w-auto object-cover rounded">
+                </div>
+            @endif
+        </div>
+
         <div class="mb-4">
             <label for="title" class="block text-gray-700 text-sm font-bold mb-2">Judul</label>
             <input wire:model="title" type="text" id="title" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">

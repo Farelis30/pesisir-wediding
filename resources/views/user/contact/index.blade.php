@@ -15,7 +15,7 @@
     </div>
 
     <!-- Contact Form Section -->
-    <div class="py-16 bg-gray-50">
+    {{-- <div class="py-16 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
                 <h2 class="text-3xl font-serif text-gray-900 mb-4">Kontak Kami</h2>
@@ -41,7 +41,9 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div> --}}
+
+    <livewire:mailform />
 
 
     <!-- Contact Details Section -->

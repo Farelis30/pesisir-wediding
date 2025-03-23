@@ -3,19 +3,42 @@
     <div class="min-h-screen flex flex-col">
         <livewire:welcome-navbar />
         <!-- Hero Section -->
-        <div class="relative bg-cover bg-center h-screen" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');">
-            <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-            <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
-                <div class="text-center">
-                    <h1 class="text-4xl md:text-6xl font-serif text-white mb-6">Wujudkan Pernikahan Impian Anda</h1>
-                    <p class="text-xl text-white mb-8 max-w-3xl mx-auto">Kami hadir untuk menjadikan momen spesial Anda menjadi kenangan tak terlupakan dengan layanan wedding organizer profesional</p>
-                    <div class="flex flex-col sm:flex-row justify-center gap-4">
-                        <a href="/paket" class="inline-block px-8 py-4 rounded-md bg-pink-600 text-white font-medium hover:bg-pink-700 transition-colors">Lihat Paket</a>
-                        <a href="/konsultasi" class="inline-block px-8 py-4 rounded-md bg-white text-pink-600 font-medium hover:bg-gray-100 transition-colors">Konsultasi Gratis</a>
+        @if ($banners->count() > 0)
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+                @foreach ($banners as $banner)
+                    <div class="swiper-slide relative bg-cover bg-center h-screen" style="background-image: url('{{ filter_var($banner->image, FILTER_VALIDATE_URL) ? $banner->image : Storage::url($banner->image) }}');">
+                        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+                        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
+                            <div class="text-center">
+                                <h1 class="text-4xl md:text-6xl font-serif text-white mb-6">{{ $banner->title }}</h1>
+                                <p class="text-xl text-white mb-8 max-w-3xl mx-auto">{{ $banner->description }}</p>
+                                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                                    <a href="{{ $banner->cta_url }}" class="capitalize inline-block px-8 py-4 rounded-md bg-pink-600 text-white font-medium hover:bg-pink-700 transition-colors">{{ $banner->cta_text }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+
+            <!-- Navigation and Pagination -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-pagination"></div>
+        </div>
+        @else
+        <div class="mt-12">
+            <div class="py-16 bg-gray-100 h-[400px]">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center">
+                        <h2 class="text-3xl font-serif text-gray-900 mb-4">Selamat Datang di PesisirWedding</h2>
+                        <p class="text-lg text-gray-600 max-w-3xl mx-auto">PesisirWedding adalah platform online yang menyediakan jasa pernikahan dengan kemampuan dan profesionalisme yang tinggi.</p>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
 
         <!-- Features Section -->
         <div class="py-16 bg-gray-50">
@@ -293,79 +316,71 @@
         </div>
     </div>
 
-    <!-- Recent Blog Posts -->
+    {{-- Recent Articles --}}
+    @if ($articles->count() > 0)
     <div class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-serif text-gray-900 mb-4">Artikel Terbaru</h2>
-                <p class="text-lg text-gray-600 max-w-3xl mx-auto">Tips dan inspirasi untuk pernikahan impian Anda</p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:transform hover:scale-105">
-                    <a href="/artikel/tips-memilih-venue">
-                        <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-60 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">Tips</span>
-                                <span class="text-gray-500 text-sm ml-2">8 Februari 2024</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">10 Tips Memilih Venue Pernikahan Yang Tepat</h3>
-                            <p class="text-gray-600 mb-4">Panduan lengkap memilih venue pernikahan yang sesuai dengan konsep, budget, dan jumlah tamu Anda.</p>
-                            <div class="flex items-center">
-                                <img src="https://randomuser.me/api/portraits/women/42.jpg" alt="Author" class="w-8 h-8 rounded-full mr-3">
-                                <span class="text-sm text-gray-600">Oleh Siska Amelia</span>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+        <div class="mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
 
-                <div class="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:transform hover:scale-105">
-                    <a href="/artikel/tren-pernikahan-2024">
-                        <img src="https://plus.unsplash.com/premium_photo-1704830496175-523990edbc4a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8d2VkZGluZyUyMHRyZW5kfGVufDB8fDB8fHww" alt="Blog Post" class="w-full h-60 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">Tren</span>
-                                <span class="text-gray-500 text-sm ml-2">14 Januari 2024</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">Tren Pernikahan 2024 yang Wajib Diketahui</h3>
-                            <p class="text-gray-600 mb-4">Temukan tren terbaru seputar dekorasi, warna, dan konsep pernikahan yang akan populer di tahun 2024.</p>
-                            <div class="flex items-center">
-                                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Author" class="w-8 h-8 rounded-full mr-3">
-                                <span class="text-sm text-gray-600">Oleh Ricky Harun</span>
-                            </div>
+            @foreach ($articles as $article)
+            <div class="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:transform hover:scale-105">
+                <a href="/artikel/{{ $article->slug }}/show">
+                    <img src="{{ filter_var($article->thumbnail, FILTER_VALIDATE_URL) ? $article->thumbnail : $article->thumbnail_url }}" alt="Blog Post" class="w-full h-96 object-cover">
+                    <div class="p-8">
+                        <div class="flex items-center mb-4">
+                            <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">{{ $article->type }}</span>
+                            <span class="text-gray-500 text-sm ml-2">{{ $article->created_at->format('d F Y') }}</span>
                         </div>
-                    </a>
-                </div>
-
-                <div class="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:transform hover:scale-105">
-                    <a href="/artikel/tips-manajemen-budget">
-                        <img src="https://images.unsplash.com/photo-1556742031-c6961e8560b0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" alt="Blog Post" class="w-full h-60 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center mb-2">
-                                <span class="bg-pink-100 text-pink-800 text-xs px-2 py-1 rounded">Budget</span>
-                                <span class="text-gray-500 text-sm ml-2">5 Januari 2024</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">Cara Efektif Mengelola Budget Pernikahan</h3>
-                            <p class="text-gray-600 mb-4">Panduan praktis mengatur anggaran pernikahan agar tetap elegan tanpa menguras tabungan.</p>
-                            <div class="flex items-center">
-                                <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Author" class="w-8 h-8 rounded-full mr-3">
-                                <span class="text-sm text-gray-600">Oleh Dina Paramitha</span>
-                            </div>
+                        <h3 class="text-3xl font-semibold mb-4">{{ $article->title }}</h3>
+                        <p class="text-gray-600 mb-6">{{ $article->subtitle }}</p>
+                        <div class="flex items-center">
+                            <span class="text-sm text-gray-600">Oleh {{ $article->user->name }}</span>
                         </div>
-                    </a>
-                </div>
-            </div>
-            <div class="mt-12 text-center">
-                <a href="/artikel" class="inline-flex items-center text-pink-600 hover:text-pink-800">
-                    Lihat Semua Artikel
-                    <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
+                    </div>
                 </a>
+            </div>
+            @endforeach
+
+        </div>
+        <div class="mt-12 text-center">
+            <a href="/artikel" class="inline-flex items-center text-pink-600 hover:text-pink-800">
+                Lihat Semua Artikel
+                <svg class="w-4 h-4 ml-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+            </a>
+        </div>
+    </div>
+    @else
+    <div class="py-16 bg-white">
+        <div class="mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-white rounded-lg overflow-hidden shadow-md transition-transform hover:transform hover:scale-105">
+                <div class="p-8">
+                    <h3 class="text-xl mb-4">Belum Ada Artikel</h3>
+                </div>
             </div>
         </div>
     </div>
+    @endif
     <livewire:welcome-footer />
 </div>
 
 </x-layouts.app>
+
+<script>
+    var swiper = new Swiper(".mySwiper", {
+      spaceBetween: 30,
+      centeredSlides: true,
+      autoplay: {
+        delay: 2500,
+        disableOnInteraction: false,
+      },
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
+      },
+    });
+</script>

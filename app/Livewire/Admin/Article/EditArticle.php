@@ -14,6 +14,9 @@ class EditArticle extends Component
 
     public $articleId;
     public $title;
+    public $subtitle;
+    public $slug;
+    public $type;
     public $content;
     public $thumbnail;
     public $newThumbnail;
@@ -23,6 +26,9 @@ class EditArticle extends Component
 
     protected $rules = [
         'title' => 'required|string|max:255',
+        'subtitle' => 'nullable|string|max:255',
+        'slug' => 'required|string|max:255',
+        'type' => 'required|string',
         'content' => 'required|string',
         'newThumbnail' => 'nullable|image|max:1024', // max 1MB
         'is_active' => 'boolean',
@@ -37,6 +43,9 @@ class EditArticle extends Component
         $this->authorize('update', $this->article);
 
         $this->title = $this->article->title;
+        $this->subtitle = $this->article->subtitle;
+        $this->slug = $this->article->slug;
+        $this->type = $this->article->type;
         $this->content = $this->article->content;
         $this->thumbnail = $this->article->thumbnail;
         $this->is_active = $this->article->is_active;
@@ -60,6 +69,9 @@ class EditArticle extends Component
 
         $this->article->update([
             'title' => $this->title,
+            'subtitle' => $this->subtitle,
+            'slug' => $this->slug,
+            'type' => $this->type,
             'content' => $this->content,
             'thumbnail' => $thumbnailPath,
             'published_date' => $publishedDate,
@@ -78,7 +90,7 @@ class EditArticle extends Component
             $this->thumbnail = null;
         }
 
-        $this->dispatchBrowserEvent('thumbnail-deleted', ['message' => 'Thumbnail berhasil dihapus']);
+        $this->dispatch('thumbnail-deleted', message:'Thumbnail berhasil dihapus');
     }
     public function render()
     {

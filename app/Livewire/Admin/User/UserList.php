@@ -5,13 +5,14 @@ namespace App\Livewire\Admin\User;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\Attributes\Url;
 
 class UserList extends Component
 {
     use WithPagination;
 
+    #[Url]
     public $search = '';
-    protected $queryString = ['search'];
 
     public function updatingSearch()
     {
@@ -32,13 +33,8 @@ class UserList extends Component
 
     public function render()
     {
-        $users = User::where('name', 'like', '%' . $this->search . '%')
-            ->orWhere('email', 'like', '%' . $this->search . '%')
-            ->orWhere('role', 'like', '%' . $this->search . '%')
-            ->orderBy('id', 'desc')
-            ->paginate(10);
         return view('livewire.admin.user.user-list', [
-            'users' => $users
+            'users' => User::search($this->search)->orderBy('id', 'desc')->paginate(10),
         ]);
     }
 }

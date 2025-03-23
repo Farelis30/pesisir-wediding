@@ -21,7 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'role'
+        'role',
+        'avatar',
+        'is_active',
     ];
 
     /**
@@ -34,6 +36,14 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public static function search($query)
+    {
+        return self::where('name', 'like', '%' . $query . '%')
+            ->orWhere('email', 'like', '%' . $query . '%')
+            ->orWhere('role', 'like', '%' . $query . '%')
+            ->orderBy('id', 'desc');
+    }
+
     /**
      * Get the attributes that should be cast.
      *
@@ -44,11 +54,31 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    public function getAvatarlUrlAttribute()
+    {
+        if ($this->avatar) {
+            return asset('storage/' . $this->avatar);
+        }
+
+        return asset('images/default-user.jpg');
     }
 
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    public function weddings()
+    {
+        return $this->hasMany(Wedding::class);
+    }
+
+    public function testimonials()
+    {
+        return $this->hasMany(Testimonial::class);
     }
 }

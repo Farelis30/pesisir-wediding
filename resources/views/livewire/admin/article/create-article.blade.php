@@ -7,31 +7,41 @@
         </div>
 
         <div class="mb-4">
+            <label for="subtitle" class="block text-gray-700 text-sm font-bold mb-2">Subtitle</label>
+            <textarea cols="30" rows="2" wire:model="subtitle" type="text" id="subtitle" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
+            @error('subtitle') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
+            <label for="slug" class="block text-gray-700 text-sm font-bold mb-2">Slug</label>
+            <input wire:model="slug" type="text" id="slug" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('slug') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
+            <label for="type" class="block text-gray-700 text-sm font-bold mb-2">Tipe</label>
+            <input wire:model="type" type="text" id="type" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            @error('type') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+        </div>
+
+        <div class="mb-4">
             <label for="thumbnail" class="block text-gray-700 text-sm font-bold mb-2">Thumbnail</label>
             <input wire:model="thumbnail" type="file" id="thumbnail" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
             @error('thumbnail') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
 
             @if ($thumbnail)
-                <div class="mt-2">
+                <div class="mt-2 border rounded p-2">
                     <span class="text-sm text-gray-500">Preview:</span>
-                    <img src="{{ $thumbnail->temporaryUrl() }}" class="mt-1 h-32 w-auto object-cover rounded">
+                    <img src="{{ $thumbnail->temporaryUrl() }}" class="mt-1 h-full w-auto object-cover rounded">
                 </div>
             @endif
         </div>
 
-        <div class="mb-4" x-data="markdownEditor()">
-            <label for="content" class="block text-gray-700 text-sm font-bold mb-2">Konten (Markdown)</label>
-            <div class="mb-2 flex flex-wrap gap-2">
-                <button type="button" @click="insertMarkdown('bold')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Bold</button>
-                <button type="button" @click="insertMarkdown('italic')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Italic</button>
-                <button type="button" @click="insertMarkdown('heading')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Heading</button>
-                <button type="button" @click="insertMarkdown('link')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Link</button>
-                <button type="button" @click="insertMarkdown('image')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Image</button>
-                <button type="button" @click="insertMarkdown('code')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Code</button>
-                <button type="button" @click="insertMarkdown('list')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">List</button>
-                <button type="button" @click="insertMarkdown('quote')" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-1 px-2 rounded text-xs">Quote</button>
+        <div class="mb-4">
+            <label for="editor" class="block text-gray-700 text-sm font-bold mb-2">Konten</label>
+            <div wire:ignore>
+                <div id="editor"></div>
             </div>
-            <textarea wire:model="content" id="content" rows="15" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline font-mono"></textarea>
             @error('content') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
         </div>
 
@@ -55,3 +65,23 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.addEventListener('livewire:initialized', function () {
+        const editor = new toastui.Editor({
+            el: document.querySelector('#editor'),
+            height: '500px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            initialValue: @json($content ?? '')
+        });
+
+        // Sync editor content with Livewire component
+        editor.on('change', () => {
+            @this.set('content', editor.getMarkdown());
+        });
+
+        // Make editor available globally (useful for debugging)
+        window.editor = editor;
+    });
+</script>

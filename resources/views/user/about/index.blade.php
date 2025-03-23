@@ -4,20 +4,7 @@
     <!-- Navbar -->
     <livewire:welcome-navbar />
 
-    <!-- Hero Section with Parallax Effect -->
-    <div class="relative bg-cover bg-center h-screen overflow-hidden">
-        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
-        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full flex flex-col justify-center">
-            <div class="text-center">
-                <h1 class="text-4xl md:text-6xl font-serif text-white mb-6 animate-fade-in-up">Tentang Kami</h1>
-                <p class="text-xl text-white mb-8 max-w-3xl mx-auto animate-fade-in-up delay-100">Kami adalah tim kreatif yang berdedikasi untuk menciptakan momen tak terlupakan dalam setiap pernikahan.</p>
-                <div class="animate-fade-in-up delay-200">
-                    <a href="#our-story" class="inline-block px-8 py-4 rounded-md bg-pink-600 text-white font-medium hover:bg-pink-700 transition-colors">Temukan Cerita Kami</a>
-                </div>
-            </div>
-        </div>
-        <!-- Parallax Background -->
-        <div class="absolute inset-0 bg-cover bg-center transform scale-110 parallax" style="background-image: url('https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80');"></div>
+    <div class="relative h-10">
     </div>
 
     <!-- Our Story Section -->

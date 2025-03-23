@@ -1,6 +1,6 @@
 <div>
     <div class="mb-4">
-        <input wire:model="search" type="search" placeholder="Cari user..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <input type="text" wire:model.live="search" placeholder="Cari user..." class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
     </div>
 
     <div class="overflow-x-auto">
@@ -9,22 +9,41 @@
                 <tr>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">No</th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">ID</th>
+                    <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Gambar</th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Nama</th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Email</th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Role</th>
+                    <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Status</th>
                     <th class="py-2 px-4 border-b border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @forelse ($users as $user)
-                    <tr>
-                        <td class="py-2 px-4 border-b border-gray-200">{{ $loop->iteration }}</td>
+                @php
+                    $start = ($users->currentPage() - 1) * $users->perPage() + 1;
+                @endphp
+                @forelse ($users as $index => $user)
+                    <tr wire:key="{{ $user->id }}">
+                        <td class="py-2 px-4 border-b border-gray-200">{{ $start + $index }}</td>
                         <td class="py-2 px-4 border-b border-gray-200">{{ $user->id }}</td>
+                        <td class="py-2 px-4 border-b border-gray-200">
+                            @if($user->avatar)
+                                <img src="{{ filter_var($user->avatar, FILTER_VALIDATE_URL) ? $user->avatar : Storage::url($user->avatar) }}" alt="{{ $user->name }}" class="h-12 w-12 object-cover rounded-full">
+                            @else
+                                <div class="h-12 w-12 bg-gray-200 flex items-center justify-center rounded-full">
+                                    <span class="text-gray-500 text-xs">No Image</span>
+                                </div>
+                            @endif
+                        </td>
                         <td class="py-2 px-4 border-b border-gray-200">{{ $user->name }}</td>
                         <td class="py-2 px-4 border-b border-gray-200">{{ $user->email }}</td>
                         <td class="py-2 px-4 border-b border-gray-200">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $user->role == 'admin' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' }}">
                                 {{ ucfirst($user->role) }}
+                            </span>
+                        </td>
+                        <td class="py-2 px-4 border-b border-gray-200">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $user->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                                {{ $user->is_active ? 'Aktif' : 'Tidak Aktif' }}
                             </span>
                         </td>
                         <td class="py-2 px-4 border-b border-gray-200">
@@ -49,7 +68,7 @@
     </div>
 
     <div class="mt-4">
-        {{ $users->links() }}
+        {{ $users->links('pagination-links') }}
     </div>
 </div>
 
